@@ -1,6 +1,8 @@
 """Setup.py file
 """
-from distutils.core import setup
+from setuptools import find_packages
+from setuptools import setup
+
 
 with open("version", "r") as f:
     version = f.read()
@@ -14,5 +16,10 @@ setup(
     author="Nathan LAUGA",
     author_email="nathan.lauga@protonmail.com",
     url=url,
-    packages=["ascii_art"],
+    packages=find_packages(),
+    entry_points={
+        "console_scripts": [
+            "ascii-generator = ascii_art.cmd:ascii_generator",
+        ],
+    },
 )
