@@ -79,7 +79,7 @@ Awesome !
 
 ```
 
-# Change number of columns
+### Change number of columns
 ```
 ascii-generator yoda --cols 50
 ```
@@ -113,7 +113,7 @@ Do you want to keep this image ? (y/n)y
 Awesome !
 ```
 
-# Change number of levels
+### Change number of levels
 ```
 ascii-generator yoda --cols 42 --more-levels false
 ```
