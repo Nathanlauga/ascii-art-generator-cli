@@ -1,6 +1,9 @@
+"""Setup.py file
+"""
 from distutils.core import setup
 
-version = open("version", "rb").read().close()
+with open("version", "r") as f:
+    version = f.read()
 desc = "Generate an ASCII Art from keyword put in the cli"
 url = "https://github.com/Nathanlauga/ascii-art-generator-cli"
 
