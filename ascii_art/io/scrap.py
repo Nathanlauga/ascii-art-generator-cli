@@ -30,7 +30,19 @@ def create_header(url: str) -> dict:
     -------
     dict
         header dictionnary
+
+    Raises
+    ------
+    TypeError
+        url must be a string
+    ValueError
+        url must start with 'http'
     """
+    if not isinstance(url, str):
+        raise TypeError("url must be a string")
+    if not (url.startswith("http://") or url.startswith("https://")):
+        raise ValueError("url must start with 'http'")
+
     header = DEFAULT_HEADER
 
     url_split = url.split("//")
@@ -68,7 +80,7 @@ def get_data_from_url(url: str) -> requests.Response:
 
     if not isinstance(url, str):
         raise TypeError("url must be a string")
-    if not url.startswith("http"):
+    if not (url.startswith("http://") or url.startswith("https://")):
         raise ValueError("url must start with 'http'")
 
     headers = create_header(url)
