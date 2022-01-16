@@ -5,11 +5,13 @@ import re
 import requests
 from bs4 import BeautifulSoup
 
-
+# This value was defined on a local computer after some tests
+# If better option are possible, do not hesitate to share it
 DEFAULT_HEADER = {
     "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36",
     "Accept-Language": "en-GB,en;q=0.5",
 }
+
 BING_IMG_URL = "https://www.bing.com/images/search?q="
 
 
@@ -111,6 +113,7 @@ def scrap_img_on_bing(keyword: str) -> list:
     url = BING_IMG_URL + keyword
     ans = get_data_from_url(url)
 
+    # if answer is not with a valid status
     if ans.status_code != 200:
         raise RequestException(
             "Request response is not valid (status code %s)" % ans.status_code
@@ -124,10 +127,13 @@ def scrap_img_on_bing(keyword: str) -> list:
     # regex for height and width on url
     regex = re.compile(r"&w=[0-9]*&h=[0-9]*", re.IGNORECASE)
     for item in images:
+
+        # This attribute is the one to get image url with bing (last check jan 2022)
         if not item.has_attr("src2"):
             continue
 
         img_url = item.get("src2")
+        # update image size to 200x200
         img_url = regex.sub("&w=200&h=200", img_url)
         img_ = (item.get("alt"), img_url)
 
@@ -137,9 +143,30 @@ def scrap_img_on_bing(keyword: str) -> list:
 
 
 def get_img_url_list_from_keyword(keyword: str, engine="bing") -> list:
+    """Retrieves images as list from a wanted engine.
+
+    Currently only "bing" is available
+
+    Parameters
+    ----------
+    keyword : str
+        kerword for the research
+    engine : str, optional
+        engine to use, by default "bing"
+
+    Returns
+    -------
+    list
+        List of tuple (title, image url)
+
+    Raises
+    ------
+    ValueError
+        engine must be in ['bing']
+    """
 
     if engine not in ["bing"]:
-        raise ValueError("engine muste be in ['bing']")
+        raise ValueError("engine must be in ['bing']")
 
     if engine == "bing":
         img_list = scrap_img_on_bing(keyword)
